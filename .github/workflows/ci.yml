@@ -38,8 +38,8 @@ jobs:
       - name: pytest
         working-directory: services/${{ matrix.service }}
         env:
-          PYTHONPATH: ../../shared
-        run: pytest -q --junitxml=../../test-results-${{ matrix.service }}.xml
+          PYTHONPATH: ../../shared:.
+        run: python -m pytest -q --junitxml=../../test-results-${{ matrix.service }}.xml
       - name: Publicar resultados de tests
         if: always()
         uses: actions/upload-artifact@v4

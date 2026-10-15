@@ -12,6 +12,6 @@ ruff format --check .
 for dir in services/*/; do
   name=$(basename "$dir")
   echo "== Tests $name"
-  (cd "$dir" && PYTHONPATH="$ROOT/shared" python -m pytest -q)
+  (cd "$dir" && PYTHONPATH="$ROOT/shared:." python -m pytest -q)
 done
 echo "== Todo OK"
