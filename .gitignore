@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/
+*.db
+outbox.jsonl
+test-results-*.xml
+.env
+.DS_Store
