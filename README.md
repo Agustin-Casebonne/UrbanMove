@@ -53,15 +53,6 @@ docker compose -f infra/docker-compose.yml up --build
 
 Esto arranca LocalStack (crea el tópico SNS, las colas SQS, la DLQ y el bucket del Data Lake) y los 10 microservicios.
 
-Prueba rápida:
-
-```bash
-curl http://localhost:8003/health
-curl -X POST http://localhost:8003/vehicles -H "Content-Type: application/json" \
-  -d '{"vehicle_type":"BIKE","model":"Orbea","purchase_date":"2026-09-01","initial_zone":"Z01"}'
-```
-
-Para pararlo: `docker compose -f infra/docker-compose.yml down` (añade `-v` para borrar los datos).
 
 ## Cómo pasar los tests
 
@@ -70,18 +61,7 @@ pip install -r requirements-dev.txt
 bash scripts/test_all.sh
 ```
 
-## Crear un microservicio nuevo
+## Contenedores
+<img width="785" height="333" alt="image" src="https://github.com/user-attachments/assets/4f5cdc89-6f61-4250-b562-8e667e038c24" />
 
-```bash
-python scripts/new_service.py incidents "Registro de averías, vandalismo e incidencias"
-```
 
-Después hay que añadirlo a `infra/docker-compose.yml` y a la matriz de `.github/workflows/ci.yml`.
-
-## Reparto del trabajo
-
-| Persona | Responsabilidades |
-|---|---|
-| Persona A | App de usuarios, identity, profiles, reservations, rides y sus tests |
-| Persona B | App de mantenimiento, inventory, availability, maintenance, relocation y Lambdas asociadas |
-| Juntos | Arquitectura, contratos, eventos, history, Data Lake, data marts, analytics, dashboard, CI/CD, observabilidad, informe y defensa |
