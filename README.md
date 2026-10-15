@@ -54,14 +54,13 @@ docker compose -f infra/docker-compose.yml up --build
 Esto arranca LocalStack (crea el tópico SNS, las colas SQS, la DLQ y el bucket del Data Lake) y los 10 microservicios.
 
 
-## Cómo pasar los tests
+## Almacenamiento de eventos
 
-```bash
-pip install -r requirements-dev.txt
-bash scripts/test_all.sh
-```
+<img width="638" height="602" alt="image" src="https://github.com/user-attachments/assets/d8e8cfde-7cd0-4319-ac79-ee1c2ea2a4eb" />
+
 
 ## Contenedores
+
 <img width="785" height="333" alt="image" src="https://github.com/user-attachments/assets/4f5cdc89-6f61-4250-b562-8e667e038c24" />
 
 
