@@ -47,10 +47,27 @@ EVENT_TYPES = {
 
 logger = get_logger("events")
 
+# ver si después eliminar los que no publiquen
+SOURCES = {
+    "analytics",
+    "availability",
+    "history",
+    "identity",
+    "inventory",
+    "maintenance",
+    "profiles",
+    "relocation",
+    "reservations",
+    "rides",
+}
+
 
 def build_event(event_type: str, source: str, data: dict, schema_version: int = 1) -> dict:
     if event_type not in EVENT_TYPES:
         raise ValueError(f"Tipo de evento desconocido: {event_type}")
+    if source not in SOURCES:
+        raise ValueError(f"Origen de evento desconocido: {source}")
+
     return {
         "event_id": str(uuid.uuid4()),
         "event_type": event_type,
@@ -80,7 +97,7 @@ def _save_to_outbox(event: dict) -> None:
 
 def publish_event(event: dict, retries: int = 3) -> bool:
     """Publica un evento en SNS. Devuelve True si se publicó.
-
+    Se le pasa evento creado en build_event. Se reintenta hasta 3 veces si falla la publicación.
     Si no hay tópico configurado (por ejemplo en los tests), solo se loguea.
     """
     topic_arn = os.getenv("EVENTS_TOPIC_ARN")
