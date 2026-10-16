@@ -60,6 +60,7 @@ Esto arranca LocalStack (crea el tópico SNS, las colas SQS, la DLQ y el bucket 
 
 ## Contenedores
 
-<img width="785" height="333" alt="image" src="https://github.com/user-attachments/assets/4f5cdc89-6f61-4250-b562-8e667e038c24" />
+<img width="856" height="588" alt="image" src="https://github.com/user-attachments/assets/b9ddb6e9-10c3-4064-9403-262867c3b4fd" />
+
 
 
