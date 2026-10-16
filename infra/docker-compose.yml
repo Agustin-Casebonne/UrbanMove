@@ -1,0 +1,194 @@
+# Levantar la aplicación COMPLETA (11 servicios) con docker compose 
+# Uso (desde la raíz del repo):  docker compose -f infra/docker-compose.yml up --build
+#
+# - localstack: simula AWS (SNS, SQS, S3, Lambda). Al arrancar ejecuta
+#   infra/localstack/init-aws.sh, que crea el bus de eventos, las colas,
+#   la DLQ y el bucket del Data Lake.
+# - Cada microservicio tiene su propio contenedor y su propio volumen de datos.
+#   Swagger de cada uno: http://localhost:<puerto>/docs
+
+x-service-env: &service-env
+  AWS_ENDPOINT_URL: http://localstack:4566
+  AWS_DEFAULT_REGION: us-east-1
+  AWS_ACCESS_KEY_ID: test        # credenciales falsas de LocalStack, no son secretos
+  AWS_SECRET_ACCESS_KEY: test
+  EVENTS_TOPIC_ARN: arn:aws:sns:us-east-1:000000000000:urbanmove-events
+
+services:
+  localstack:
+    image: localstack/localstack:3.8
+    ports:
+      - "4566:4566"
+    environment:
+      SERVICES: sns,sqs,s3,lambda,logs,iam
+      DEFAULT_REGION: us-east-1
+    volumes:
+      - ./localstack/init-aws.sh:/etc/localstack/init/ready.d/init-aws.sh
+      - /var/run/docker.sock:/var/run/docker.sock
+    healthcheck:
+      test: ["CMD", "bash", "-c", "awslocal sns list-topics | grep -q urbanmove-events"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  identity:
+    build:
+      context: ..
+      dockerfile: services/identity/Dockerfile
+    ports:
+      - "8001:8000"
+    environment:
+      <<: *service-env
+    volumes:
+      - identity-data:/data
+    depends_on:
+      localstack:
+        condition: service_healthy
+    restart: unless-stopped
+
+  profiles:
+    build:
+      context: ..
+      dockerfile: services/profiles/Dockerfile
+    ports:
+      - "8002:8000"
+    environment:
+      <<: *service-env
+    volumes:
+      - profiles-data:/data
+    depends_on:
+      localstack:
+        condition: service_healthy
+    restart: unless-stopped
+
+  inventory:
+    build:
+      context: ..
+      dockerfile: services/inventory/Dockerfile
+    ports:
+      - "8003:8000"
+    environment:
+      <<: *service-env
+    volumes:
+      - inventory-data:/data
+    depends_on:
+      localstack:
+        condition: service_healthy
+    restart: unless-stopped
+
+  availability:
+    build:
+      context: ..
+      dockerfile: services/availability/Dockerfile
+    ports:
+      - "8004:8000"
+    environment:
+      <<: *service-env
+    volumes:
+      - availability-data:/data
+    depends_on:
+      localstack:
+        condition: service_healthy
+    restart: unless-stopped
+
+  reservations:
+    build:
+      context: ..
+      dockerfile: services/reservations/Dockerfile
+    ports:
+      - "8005:8000"
+    environment:
+      <<: *service-env
+    volumes:
+      - reservations-data:/data
+    depends_on:
+      localstack:
+        condition: service_healthy
+    restart: unless-stopped
+
+  rides:
+    build:
+      context: ..
+      dockerfile: services/rides/Dockerfile
+    ports:
+      - "8006:8000"
+    environment:
+      <<: *service-env
+    volumes:
+      - rides-data:/data
+    depends_on:
+      localstack:
+        condition: service_healthy
+    restart: unless-stopped
+
+  history:
+    build:
+      context: ..
+      dockerfile: services/history/Dockerfile
+    ports:
+      - "8007:8000"
+    environment:
+      <<: *service-env
+    volumes:
+      - history-data:/data
+    depends_on:
+      localstack:
+        condition: service_healthy
+    restart: unless-stopped
+
+  maintenance:
+    build:
+      context: ..
+      dockerfile: services/maintenance/Dockerfile
+    ports:
+      - "8008:8000"
+    environment:
+      <<: *service-env
+    volumes:
+      - maintenance-data:/data
+    depends_on:
+      localstack:
+        condition: service_healthy
+    restart: unless-stopped
+
+  relocation:
+    build:
+      context: ..
+      dockerfile: services/relocation/Dockerfile
+    ports:
+      - "8009:8000"
+    environment:
+      <<: *service-env
+    volumes:
+      - relocation-data:/data
+    depends_on:
+      localstack:
+        condition: service_healthy
+    restart: unless-stopped
+
+  analytics:
+    build:
+      context: ..
+      dockerfile: services/analytics/Dockerfile
+    ports:
+      - "8010:8000"
+    environment:
+      <<: *service-env
+    volumes:
+      - analytics-data:/data
+    depends_on:
+      localstack:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  identity-data:
+  profiles-data:
+  inventory-data:
+  availability-data:
+  reservations-data:
+  rides-data:
+  history-data:
+  maintenance-data:
+  relocation-data:
+  analytics-data:
