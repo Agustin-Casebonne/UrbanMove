@@ -16,7 +16,7 @@ from datetime import date, datetime, timezone
 from enum import Enum
 
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 from urbanmove_common.events import emit
 from urbanmove_common.logging_utils import add_correlation_middleware, get_logger
@@ -39,9 +39,9 @@ class AdminStatus(str, Enum):
 
 class VehicleIn(BaseModel):
     vehicle_type: VehicleType
-    model: str = Field(min_length=1, examples=["Xiaomi Pro 2"])
+    model: str
     purchase_date: date
-    initial_zone: str = Field(min_length=1, examples=["Z01"])
+    initial_zone: str
 
 
 class Vehicle(VehicleIn):
@@ -106,23 +106,14 @@ def create_vehicle(body: VehicleIn):
         admin_status=AdminStatus.ACTIVE,
         created_at=created_at,
     )
-    logger.info("vehicle created", extra={"extra_fields": {"vehicle_id": vehicle_id}})
     emit("VehiclePurchased", SERVICE_NAME, vehicle.model_dump(mode="json"))
     return vehicle
 
 
 @app.get("/vehicles", response_model=list[Vehicle])
-def list_vehicles(vehicle_type: VehicleType | None = None, admin_status: AdminStatus | None = None):
-    query = "SELECT * FROM vehicles WHERE 1=1"
-    params: list = []
-    if vehicle_type:
-        query += " AND vehicle_type = ?"
-        params.append(vehicle_type.value)
-    if admin_status:
-        query += " AND admin_status = ?"
-        params.append(admin_status.value)
+def list_vehicles():
     with get_conn() as conn:
-        rows = conn.execute(query, params).fetchall()
+        rows = conn.execute("SELECT * FROM vehicles").fetchall()
     return [_row_to_vehicle(r) for r in rows]
 
 

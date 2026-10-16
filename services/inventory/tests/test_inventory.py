@@ -38,12 +38,12 @@ def test_create_and_get_vehicle(client):
     assert r.json()["model"] == "Xiaomi Pro 2"
 
 
-def test_list_filters_by_type(client):
+def test_list_vehicles(client):
     client.post("/vehicles", json=NEW_VEHICLE)
     client.post("/vehicles", json={**NEW_VEHICLE, "vehicle_type": "BIKE"})
-    r = client.get("/vehicles", params={"vehicle_type": "BIKE"})
+    r = client.get("/vehicles")
     assert r.status_code == 200
-    assert len(r.json()) == 1
+    assert len(r.json()) == 2
 
 
 def test_invalid_type_is_rejected(client):
