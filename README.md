@@ -23,7 +23,6 @@ lambdas/       funciones serverless
 apps/          app de usuarios, app de mantenimiento y dashboard
 infra/         docker-compose.yml y script de LocalStack
 docs/          arquitectura, contratos de APIs y eventos, ADRs, evidencias
-scripts/       utilidades (crear servicio nuevo, pasar tests)
 ```
 
 ## Microservicios
