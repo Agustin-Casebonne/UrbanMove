@@ -1,4 +1,4 @@
-# UrbanMove - entorno local completo
+# Levantar la aplicación COMPLETA (11 servicios) con docker compose 
 # Uso (desde la raíz del repo):  docker compose -f infra/docker-compose.yml up --build
 #
 # - localstack: simula AWS (SNS, SQS, S3, Lambda). Al arrancar ejecuta

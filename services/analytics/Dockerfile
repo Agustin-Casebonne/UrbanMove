@@ -1,5 +1,6 @@
 # Se construye desde la RAÍZ del repo para poder copiar la librería común:
 #   docker build -f services/analytics/Dockerfile .
+# Cada docker file en cada unos de los servicios sirve para levantar cada microservicio de manera independiente, para poder probarlo y desarrollarlo sin necesidad de levantar todos los servicios a la vez.
 FROM python:3.12-slim
 
 WORKDIR /app
