@@ -1,0 +1,23 @@
+# Se construye desde la RAÍZ del repo para poder copiar la librería común:
+#   docker build -f services/analytics/Dockerfile .
+# Cada docker file en cada unos de los servicios sirve para levantar cada microservicio de manera independiente, para poder probarlo y desarrollarlo sin necesidad de levantar todos los servicios a la vez.
+FROM python:3.12-slim
+
+WORKDIR /app
+ENV PYTHONPATH=/app/shared \
+    PYTHONUNBUFFERED=1 \
+    DB_PATH=/data/analytics.db
+
+COPY services/analytics/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY shared/ /app/shared/
+COPY services/analytics/app/ /app/app/
+
+RUN mkdir -p /data
+EXPOSE 8000
+
+HEALTHCHECK --interval=15s --timeout=3s --retries=3 \
+  CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')" || exit 1
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

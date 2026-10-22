@@ -1,0 +1,10 @@
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "B"]
+ignore = ["B008", "E501"]  # la longitud la gestiona "ruff format"
+
+[tool.ruff.lint.isort]
+known-first-party = ["urbanmove_common", "app"]
