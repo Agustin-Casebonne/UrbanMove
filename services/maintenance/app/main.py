@@ -15,13 +15,14 @@ from fastapi import FastAPI
 
 from urbanmove_common.logging_utils import add_correlation_middleware, get_logger
 
-SERVICE_NAME = "maintenance"
+from .adapters.api import SERVICE_NAME, router
+
 logger = get_logger(SERVICE_NAME)
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Aquí se inicializa la base de datos propia del servicio (ver services/inventory/app/db.py)
+    # Aquí se inicializa la base de datos propia del servicio (ver services/inventory/app/main.py)
     yield
 
 
@@ -33,7 +34,4 @@ app = FastAPI(
 )
 add_correlation_middleware(app, logger)
 
-
-@app.get("/health")
-def health():
-    return {"status": "ok", "service": SERVICE_NAME}
+app.include_router(router)

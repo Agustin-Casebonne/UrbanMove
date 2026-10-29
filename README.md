@@ -24,6 +24,11 @@ apps/          app de usuarios, app de mantenimiento y dashboard
 infra/         docker-compose.yml y script de LocalStack
 docs/          arquitectura, contratos de APIs y eventos, ADRs, evidencias
 ```
+## Estructura de los módulos (Hexagonal)
+
+<img width="1017" height="610" alt="image" src="https://github.com/user-attachments/assets/ba3e8d21-01da-4a31-9e99-cc505f388338" />
+
+
 
 ## Microservicios
 
