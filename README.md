@@ -26,7 +26,8 @@ docs/          arquitectura, contratos de APIs y eventos, ADRs, evidencias
 ```
 ## Estructura de los módulos (Hexagonal)
 
-<img width="1032" height="638" alt="image" src="https://github.com/user-attachments/assets/b192084a-348d-4481-b316-b7d1d36df939" />
+<img width="1017" height="610" alt="image" src="https://github.com/user-attachments/assets/ba3e8d21-01da-4a31-9e99-cc505f388338" />
+
 
 
 ## Microservicios
