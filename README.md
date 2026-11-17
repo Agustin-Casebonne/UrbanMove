@@ -37,7 +37,7 @@ docs/          arquitectura, contratos de APIs y eventos, ADRs, evidencias
 | identity | 8001 | esqueleto |
 | profiles | 8002 | esqueleto |
 | inventory | 8003 | **implementado** (plantilla de referencia) |
-| availability | 8004 | esqueleto |
+| availability | 8004 | **implementado** |
 | reservations | 8005 | **implementado** (ver `docs/reservations.md`) |
 | rides | 8006 | esqueleto |
 | history | 8007 | esqueleto |
