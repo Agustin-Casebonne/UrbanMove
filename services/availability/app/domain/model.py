@@ -4,7 +4,7 @@ Ejemplo: services/inventory/app/domain/model.py
 """
 
 from enum import Enum
-
+from pydantic import BaseModel
 
 class VehicleType (str, Enum):
     BIKE = "BIKE"
@@ -21,7 +21,6 @@ class VehicleStatus (str, Enum):
     READY_FOR_SERVICE = "READY_FOR_SERVICE"
     RETIRED = "RETIRED"
 
-S = VehicleStatus
 
 ALLOWED_TRANSITIONS = {
     VehicleStatus.AVAILABLE: [
