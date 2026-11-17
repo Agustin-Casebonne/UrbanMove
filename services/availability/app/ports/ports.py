@@ -3,6 +3,7 @@
 Los implementan los adaptadores de adapters/ y se conectan en main.py.
 Ejemplo: services/inventory/app/ports/ports.py
 """
+
 from typing import Protocol
 
 

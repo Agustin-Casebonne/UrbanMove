@@ -4,13 +4,16 @@ Ejemplo: services/inventory/app/domain/model.py
 """
 
 from enum import Enum
+
 from pydantic import BaseModel
 
-class VehicleType (str, Enum):
+
+class VehicleType(str, Enum):
     BIKE = "BIKE"
     SCOOTER = "SCOOTER"
 
-class VehicleStatus (str, Enum):
+
+class VehicleStatus(str, Enum):
     AVAILABLE = "AVAILABLE"
     RESERVED = "RESERVED"
     IN_USE = "IN_USE"

@@ -37,4 +37,3 @@ app = FastAPI(
 add_correlation_middleware(app, logger)
 
 app.include_router(router)
-
