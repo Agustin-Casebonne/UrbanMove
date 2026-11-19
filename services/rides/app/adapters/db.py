@@ -1,60 +1,55 @@
 """Adaptador de salida: base de datos propia de rides (SQLite).
 
+Implementa ports.RideRepository. Es el único sitio donde hay SQL.
 Ningún otro microservicio accede a esta base de datos.
-Ejemplo: services/inventory/app/adapters/db.py
 """
+
 import os
 import sqlite3
 
-from ..domain.model import Ride
+from ..domain.model import Ride, RideStatus
 
 
-def db_path():
-    return os.getenv("DB_PATH", "ride.db")
+def db_path() -> str:
+    return os.getenv("DB_PATH", "rides.db")
 
 
-def get_conn():
+def get_conn() -> sqlite3.Connection:
     conn = sqlite3.connect(db_path(), timeout=5)
     conn.row_factory = sqlite3.Row  # para leer las columnas por nombre
     return conn
 
 
-def init_db():
-    conn = get_conn()
-    cursor = conn.cursor()
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS rides (
-            ride_id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id INTEGER NOT NULL,
-            vehicle_id INTEGER NOT NULL,
-            reservation_id INTEGER | None = None,
-            origin_zone TEXT NOT NULL,
-            destination_zone TEXT | None = None,
-            status TEXT NOT NULL DEFAULT 'pending',
-            started_at TEXT NOT NULL,
-            finished_at TEXT | None = None,
-            duration_min: float | None = None,
-            cost: float | None = None,
-            battery_level: int | None = None
-        """)
-    conn.execute(
-                """
-                CREATE TABLE IF NOT EXISTS processed_events (
-                    event_id     TEXT PRIMARY KEY,
-                    processed_at TEXT NOT NULL
-                )
-                """
+def init_db() -> None:
+    with get_conn() as conn:
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS rides (
+                ride_id          TEXT PRIMARY KEY,
+                user_id          TEXT NOT NULL,
+                vehicle_id       TEXT NOT NULL,
+                reservation_id   TEXT,
+                origin_zone      TEXT NOT NULL,
+                destination_zone TEXT,
+                status           TEXT NOT NULL,   -- IN_PROGRESS | FINISHED
+                started_at       TEXT NOT NULL,
+                finished_at      TEXT,
+                duration_min     REAL,
+                cost             REAL,
+                battery_level    INTEGER
             )
+            """
+        )
 
 
 class SqliteRideRepository:
-    def ping(self):
+    def ping(self) -> None:
         """Comprueba que la base de datos responde (lo usa /health)."""
         with get_conn() as conn:
             conn.execute("SELECT 1")
 
-    def save(self, ride):
-        """Guarda un ride. Si ya existía, lo sobrescribe."""
+    def save(self, ride: Ride) -> None:
+        """Guarda un viaje. Si ya existía (mismo ride_id), lo sobrescribe."""
         with get_conn() as conn:
             conn.execute(
                 """
@@ -62,24 +57,34 @@ class SqliteRideRepository:
                     ride_id, user_id, vehicle_id, reservation_id, origin_zone,
                     destination_zone, status, started_at, finished_at,
                     duration_min, cost, battery_level
-                ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
                 (
-                    ride.ride_id, ride.user_id, ride.vehicle_id, ride.reservation_id, ride.origin_zone,
-                    ride.destination_zone, ride.status.value, ride.started_at, ride.finished_at,
-                    ride.duration_min, ride.cost, ride.battery_level
-                )
+                    ride.ride_id,
+                    ride.user_id,
+                    ride.vehicle_id,
+                    ride.reservation_id,
+                    ride.origin_zone,
+                    ride.destination_zone,
+                    ride.status.value,
+                    ride.started_at,
+                    ride.finished_at,
+                    ride.duration_min,
+                    ride.cost,
+                    ride.battery_level,
+                ),
             )
 
-    def get(self, ride_id):
-        """Devuelve el ride, o None si no existe."""
+    def get(self, ride_id: str) -> Ride | None:
+        """Devuelve el viaje, o None si no existe."""
         with get_conn() as conn:
             row = conn.execute("SELECT * FROM rides WHERE ride_id = ?", (ride_id,)).fetchone()
         if row is None:
             return None
         return Ride(**row)
 
-    def list_rides(self, user_id=None, status=None):
-        """Lista rides. Los filtros que lleguen como None no se aplican."""
+    def list_rides(self, user_id: str | None = None, status: RideStatus | None = None) -> list[Ride]:
+        """Lista viajes. Los filtros que lleguen como None no se aplican."""
         query = "SELECT * FROM rides WHERE 1 = 1"
         params = []
         if user_id is not None:
@@ -88,20 +93,7 @@ class SqliteRideRepository:
         if status is not None:
             query += " AND status = ?"
             params.append(status.value)
+        query += " ORDER BY started_at DESC"
         with get_conn() as conn:
             rows = conn.execute(query, params).fetchall()
         return [Ride(**row) for row in rows]
-
-    def is_event_processed(self, event_id):
-            """True si ese evento ya se aplicó antes."""
-            with get_conn() as conn:
-                row = conn.execute("SELECT 1 FROM processed_events WHERE event_id = ?", (event_id,)).fetchone()
-            return row is not None
-    
-    def mark_event_processed(self, event_id, processed_at):
-        """Apunta que el evento ya se aplicó."""
-        with get_conn() as conn:
-            conn.execute(
-                "INSERT OR IGNORE INTO processed_events VALUES (?, ?)",
-                (event_id, processed_at),
-            )    
