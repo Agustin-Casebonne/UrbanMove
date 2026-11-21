@@ -37,7 +37,7 @@ El código que construye y publica los eventos está en `shared/urbanmove_common
 | `VehicleReserved` | reservations | availability, history, datalake, Lambda expiración | `reservation_id`, `user_id`, `vehicle_id`, `zone_id`, `expires_at` |
 | `ReservationCancelled` | reservations | availability, history, datalake | `reservation_id`, `user_id`, `vehicle_id` |
 | `ReservationExpired` | reservations (vía Lambda) | availability, history, datalake | `reservation_id`, `user_id`, `vehicle_id` |
-| `RideStarted` | rides | availability, history, datalake | `ride_id`, `user_id`, `vehicle_id`, `vehicle_type`, `origin_zone`, `started_at` |
+| `RideStarted` | rides | availability, history, datalake | `ride_id`, `user_id`, `reservation_id`, `vehicle_id`, `origin_zone`, `started_at` |
 | `RideFinished` | rides | availability, history, datalake | `ride_id`, `user_id`, `vehicle_id`, `origin_zone`, `destination_zone`, `duration_min`, `cost`, `battery_level` |
 | `VehicleBatteryLow` | availability (telemetría) | Lambda detección mantenimiento, history, datalake | `vehicle_id`, `battery_level`, `zone_id` |
 | `VehicleWithdrawnForMaintenance` | maintenance | availability, history, datalake | `order_id`, `vehicle_id`, `reason` (`CHARGE` / `REPAIR` / `REVIEW`) |
