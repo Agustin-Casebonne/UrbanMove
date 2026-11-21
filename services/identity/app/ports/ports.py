@@ -15,21 +15,21 @@ class UserRepository(ABC):
     @abstractmethod
     def ping(self) -> None:
         """Comprueba que el repositorio funciona."""
-        raise NotImplementedError()
+        
     @abstractmethod
     def save(self, user: User) -> None:
         """Guarda un usuario en el repositorio."""
-        raise NotImplementedError()
+        
     
     @abstractmethod
     def get_user(self, user_id: str) -> User | None:
         """Busca un usuario por su id. Devuelve None si no existe."""
-        raise NotImplementedError()
+        
     
     @abstractmethod     
     def get_by_email(self, email: str) -> User | None:
         """Busca un usuario por su email. Devuelve None si no existe."""
-        raise NotImplementedError()
+        
 
 class TokenIssuer(ABC):
     """Emite y valida tokens de autenticación."""
@@ -37,12 +37,11 @@ class TokenIssuer(ABC):
     @abstractmethod
     def issue_token(self, user_id: str, role: User_type) -> str:
         """Emite un token para un usuario."""
-        raise NotImplementedError()
 
     @abstractmethod
     def validate_token(self, token: str) -> dict:
         """Valida un token y devuelve su payload."""
-        raise NotImplementedError()
+        
 
 class PasswordHasher(ABC):
     """Hashea y valida contraseñas."""
@@ -50,12 +49,12 @@ class PasswordHasher(ABC):
     @abstractmethod
     def hash_password(self, password: str) -> str:
         """Hashea una contraseña."""
-        raise NotImplementedError()
+        
 
     @abstractmethod
     def verify_password(self, password: str, password_hash: str) -> bool:
         """Verifica que una contraseña coincide con su hash."""
-        raise NotImplementedError()
+        
 
 class EventPublisher(ABC):
     """Publica eventos de dominio."""
@@ -63,4 +62,4 @@ class EventPublisher(ABC):
     @abstractmethod
     def publish(self, event_type: str, data: dict) -> None:
         """Publica un evento de dominio."""
-        raise NotImplementedError()
+        
