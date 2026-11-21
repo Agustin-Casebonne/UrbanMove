@@ -23,6 +23,11 @@ class User(BaseModel):
     role: UserRole
     created_at: str
 
+class UserPublic(BaseModel):
+    user_id: str
+    email: str
+    role: UserRole
+    created_at: str
 
 class UserAlreadyExists(Exception):
     pass
