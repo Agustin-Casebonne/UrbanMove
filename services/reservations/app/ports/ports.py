@@ -7,14 +7,16 @@ están en adapters/ y se conectan en main.py:
 - AvailabilityChecker   -> adapters/availability.py (HTTP al servicio availability)
 """
 
-from typing import Protocol
+from abc import ABC, abstractmethod
 
 from ..domain.model import Reservation, ReservationStatus
 
 
-class ReservationRepository(Protocol):
+class ReservationRepository(ABC):
+    @abstractmethod
     def ping(self) -> None: ...
 
+    @abstractmethod
     def create(self, reservation: Reservation) -> None:
         """Guarda una reserva nueva.
 
@@ -23,16 +25,20 @@ class ReservationRepository(Protocol):
         """
         ...
 
+    @abstractmethod
     def get(self, reservation_id: str) -> Reservation | None: ...
 
+    @abstractmethod
     def list_reservations(
         self, user_id: str | None = None, status: ReservationStatus | None = None
     ) -> list[Reservation]: ...
 
+    @abstractmethod
     def list_overdue(self, now_iso: str) -> list[Reservation]:
         """Reservas activas cuyo expires_at ya ha pasado."""
         ...
 
+    @abstractmethod
     def transition(
         self,
         reservation_id: str,
@@ -48,11 +54,13 @@ class ReservationRepository(Protocol):
         ...
 
 
-class EventPublisher(Protocol):
+class EventPublisher(ABC):
+    @abstractmethod
     def publish(self, event_type: str, data: dict) -> None: ...
 
 
-class AvailabilityChecker(Protocol):
+class AvailabilityChecker(ABC):
+    @abstractmethod
     def check_vehicle(self, vehicle_id: str) -> None:
         """No devuelve nada si el vehículo está AVAILABLE.
 
