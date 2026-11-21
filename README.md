@@ -29,7 +29,6 @@ docs/          arquitectura, contratos de APIs y eventos, ADRs, evidencias
 <img width="1017" height="610" alt="image" src="https://github.com/user-attachments/assets/ba3e8d21-01da-4a31-9e99-cc505f388338" />
 
 
-
 ## Microservicios
 
 | Servicio | Puerto local | Estado |
@@ -39,7 +38,7 @@ docs/          arquitectura, contratos de APIs y eventos, ADRs, evidencias
 | inventory | 8003 | **implementado** (plantilla de referencia) |
 | availability | 8004 | **implementado** |
 | reservations | 8005 | **implementado** (ver `docs/reservations.md`) |
-| rides | 8006 | esqueleto |
+| rides | 8006 | **implementado** |
 | history | 8007 | esqueleto |
 | maintenance | 8008 | esqueleto |
 | relocation | 8009 | esqueleto |
