@@ -8,7 +8,8 @@ import os
 
 import sqlite3
 
-from services.identity.app.domain.model import User, UserType
+from ..domain.model import User, UserRole
+from ..ports.ports import UserRepository
 
 def db_path():
     return os.getenv("DB_PATH", "identity.db")
@@ -29,17 +30,14 @@ def init_db():
                 user_id       TEXT PRIMARY KEY,
                 email         TEXT NOT NULL UNIQUE,
                 password_hash TEXT NOT NULL,
-                type          TEXT NOT NULL,  -- USER | ADMIN | MAINTENANCE
+                role          TEXT NOT NULL,  -- USER | ADMIN | MAINTENANCE
                 created_at    TEXT NOT NULL
             )
             """
         )
 
 
-class SqliteUserRepository:
-    def __init__(self, db_path):
-        self.db_path = db_path
-
+class SqliteUserRepository(UserRepository):
     def ping(self):
         """Comprueba que la base de datos funciona."""
         with get_conn() as conn:
@@ -50,10 +48,10 @@ class SqliteUserRepository:
         with get_conn() as conn:
             conn.execute(
                 """
-                INSERT INTO users (user_id, email, password_hash, type, created_at)
+                INSERT INTO users (user_id, email, password_hash, role, created_at)
                 VALUES (?, ?, ?, ?, ?)
                 """,
-                (user.user_id, user.email, user.password_hash, user.type.value, user.created_at),
+                (user.user_id, user.email, user.password_hash, user.role.value, user.created_at),
             )
 
     def get_user(self, user_id):
@@ -66,7 +64,7 @@ class SqliteUserRepository:
                 user_id=row["user_id"],
                 email=row["email"],
                 password_hash=row["password_hash"],
-                type=UserType(row["type"]),
+                role=UserRole(row["role"]),
                 created_at=row["created_at"],
             )
         
@@ -81,6 +79,6 @@ class SqliteUserRepository:
                 user_id=row["user_id"],
                 email=row["email"],
                 password_hash=row["password_hash"],
-                type=UserType(row["type"]),
+                role=UserRole(row["role"]),
                 created_at=row["created_at"],
             )

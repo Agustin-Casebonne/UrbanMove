@@ -5,7 +5,7 @@ Ejemplo: services/inventory/app/ports/ports.py
 """
 from abc import ABC, abstractmethod
 
-from ..domain.model import User, UserType
+from ..domain.model import User, UserRole
 
 
 
@@ -35,7 +35,7 @@ class TokenIssuer(ABC):
     """Emite y valida tokens de autenticación."""
     
     @abstractmethod
-    def issue_token(self, user_id: str, role: UserType) -> str:
+    def issue_token(self, user_id: str, role: UserRole) -> str:
         """Emite un token para un usuario."""
 
     @abstractmethod

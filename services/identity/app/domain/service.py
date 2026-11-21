@@ -27,7 +27,7 @@ class IdentityService:
             raise UserNotFound(user_id)
         return user
 
-    def register_user(self, email, password, type):
+    def register_user(self, email, password, role):
         """Da de alta un usuario nuevo. Si ya existía, lanza UserAlreadyExists."""
         if len(password) < 8:
                     raise WeakPassword("Password does not meet security requirements.")
@@ -41,12 +41,12 @@ class IdentityService:
             user_id=str(uuid.uuid4()),
             email=email,
             password_hash=password_hash,
-            type=type,
+            role=role,
             created_at=now_iso(),
         )
         self.user_repository.save(user)
         self.event_publisher.publish("UserRegistered", {
-            "user_id": user.user_id, "email": user.email, "type": user.type.value,
+            "user_id": user.user_id, "email": user.email, "role": user.role.value,
         })
         return user
 
@@ -61,5 +61,5 @@ class IdentityService:
             raise InvalidCredentials("Invalid email or password.")
         if not self.password_hasher.verify_password(password, user.password_hash):
             raise InvalidCredentials("Invalid email or password.")
-        token = self.token_issuer.issue_token(user.user_id, user.type)
+        token = self.token_issuer.issue_token(user.user_id, user.role)
         return token

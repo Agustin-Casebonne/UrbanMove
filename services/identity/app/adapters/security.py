@@ -9,7 +9,7 @@ from datetime import datetime, timedelta, timezone
 import bcrypt
 import jwt
 
-from ..domain.model import InvalidToken, UserType
+from ..domain.model import InvalidToken, UserRole
 from ..ports.ports import PasswordHasher, TokenIssuer
 
 
@@ -30,7 +30,7 @@ class JwtTokenIssuer(TokenIssuer):
         self.expires_minutes = expires_minutes
         self.algorithm = algorithm
 
-    def issue_token(self, user_id: str, role: UserType) -> str:
+    def issue_token(self, user_id: str, role: UserRole) -> str:
         """Emite un JWT firmado con el id del usuario, su rol y la fecha de caducidad."""
         payload = {
             "user_id": user_id,

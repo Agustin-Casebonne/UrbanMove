@@ -12,7 +12,7 @@ from pydantic import BaseModel
 from pydantic import BaseModel
 
 
-class UserType(str, Enum):
+class UserRole(str, Enum):
     """Tipos de usuario."""
 
     USER = "USER"
@@ -25,7 +25,7 @@ class User(BaseModel):
     user_id: str
     email: str
     password_hash: str
-    role: UserType
+    role: UserRole
     created_at: str
 
 
@@ -42,4 +42,8 @@ class InvalidToken(Exception):
 
 
 class WeakPassword(Exception):          
+    pass
+
+
+class UserNotFound(Exception):
     pass
