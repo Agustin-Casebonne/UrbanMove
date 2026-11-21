@@ -7,7 +7,14 @@ Ejemplo completo: services/inventory/app/adapters/api.py
 from fastapi import APIRouter, FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
 
-from ..domain.model import Ride, RideNotFound, RideStatus, RideAlreadyFinished, VehicleNotAvailable, AvailabilityServiceDown
+from ..domain.model import (
+    AvailabilityServiceDown,
+    Ride,
+    RideAlreadyFinished,
+    RideNotFound,
+    RideStatus,
+    VehicleNotAvailable,
+)
 
 SERVICE_NAME = "rides"
 
