@@ -8,6 +8,7 @@ import os
 import sqlite3
 
 from ..domain.model import Ride, RideStatus
+from ..ports.ports import RideRepository
 
 
 def db_path() -> str:
@@ -42,7 +43,7 @@ def init_db() -> None:
         )
 
 
-class SqliteRideRepository:
+class SqliteRideRepository(RideRepository):
     def ping(self) -> None:
         """Comprueba que la base de datos responde (lo usa /health)."""
         with get_conn() as conn:

@@ -25,6 +25,7 @@ from ..domain.model import (
     UserAlreadyHasReservation,
     VehicleAlreadyReserved,
 )
+from ..ports.ports import ReservationRepository
 
 
 def db_path() -> str:
@@ -76,7 +77,7 @@ def _row_to_reservation(row) -> Reservation:
 ACTIVE_SQL = "('PENDING', 'CONFIRMED')"
 
 
-class SqliteReservationRepository:
+class SqliteReservationRepository(ReservationRepository):
     def ping(self) -> None:
         with get_conn() as conn:
             conn.execute("SELECT 1")

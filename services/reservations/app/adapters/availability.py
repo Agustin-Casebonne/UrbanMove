@@ -21,9 +21,10 @@ import urllib.request
 from urbanmove_common.logging_utils import CORRELATION_HEADER, get_correlation_id
 
 from ..domain.model import AvailabilityServiceDown, VehicleNotAvailable, VehicleNotFound
+from ..ports.ports import AvailabilityChecker
 
 
-class HttpAvailabilityChecker:
+class HttpAvailabilityChecker(AvailabilityChecker):
     def __init__(self, base_url: str, timeout_seconds: float = 2.0):
         self.base_url = base_url.rstrip("/")
         self.timeout = timeout_seconds

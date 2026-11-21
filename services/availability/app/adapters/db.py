@@ -12,6 +12,7 @@ import os
 import sqlite3
 
 from ..domain.model import Vehicle
+from ..ports.ports import VehicleRepository
 
 
 def db_path():
@@ -49,7 +50,7 @@ def init_db():
         )
 
 
-class SqliteVehicleRepository:
+class SqliteVehicleRepository(VehicleRepository):
     def ping(self):
         """Comprueba que la base de datos responde (lo usa /health)."""
         with get_conn() as conn:

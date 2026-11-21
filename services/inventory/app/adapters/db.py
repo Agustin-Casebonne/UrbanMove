@@ -10,6 +10,7 @@ import os
 import sqlite3
 
 from ..domain.model import AdminStatus, Vehicle
+from ..ports.ports import VehicleRepository
 
 
 def db_path() -> str:
@@ -43,7 +44,7 @@ def _row_to_vehicle(row) -> Vehicle:
     return Vehicle(**dict(row))
 
 
-class SqliteVehicleRepository:
+class SqliteVehicleRepository(VehicleRepository):
     def ping(self) -> None:
         with get_conn() as conn:
             conn.execute("SELECT 1")
