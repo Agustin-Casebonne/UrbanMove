@@ -16,6 +16,7 @@ from urbanmove_common.logging_utils import add_correlation_middleware, get_logge
 
 from .adapters.api import SERVICE_NAME, router
 from .adapters.db import SqliteVehicleRepository, init_db
+from .adapters.events import SnsEventPublisher
 from .domain.service import AvailabilityService
 
 logger = get_logger(SERVICE_NAME)
@@ -24,7 +25,9 @@ logger = get_logger(SERVICE_NAME)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     init_db()
-    app.state.availability_service = AvailabilityService(repository=SqliteVehicleRepository(), publisher=None)
+    app.state.availability_service = AvailabilityService(
+        repository=SqliteVehicleRepository(), publisher=SnsEventPublisher(source=SERVICE_NAME)
+    )
     yield
 
 
