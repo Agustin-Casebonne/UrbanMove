@@ -6,8 +6,10 @@ Ejemplo: services/inventory/app/adapters/events.py
 
 from urbanmove_common.events import emit
 
+from ..ports.ports import EventPublisher
 
-class SnsEventPublisher:
+
+class SnsEventPublisher(EventPublisher):
     def __init__(self, source: str):
         self.source = source
 

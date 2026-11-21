@@ -6,8 +6,10 @@ La librería común se encarga de reintentos y del outbox si el bus está caído
 
 from urbanmove_common.events import emit
 
+from ..ports.ports import EventPublisher
 
-class SnsEventPublisher:
+
+class SnsEventPublisher(EventPublisher):
     def __init__(self, source: str):
         self.source = source
 

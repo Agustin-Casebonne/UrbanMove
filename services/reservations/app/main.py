@@ -30,7 +30,7 @@ from fastapi import FastAPI
 
 from urbanmove_common.logging_utils import add_correlation_middleware, get_logger
 
-from .adapters.api import SERVICE_NAME, register_error_handlers, router
+from .adapters.api import SERVICE_NAME, router
 from .adapters.availability import HttpAvailabilityChecker
 from .adapters.db import SqliteReservationRepository, init_db
 from .adapters.events import SnsEventPublisher
@@ -62,5 +62,4 @@ app = FastAPI(
     lifespan=lifespan,
 )
 add_correlation_middleware(app, logger)
-register_error_handlers(app)
 app.include_router(router)
