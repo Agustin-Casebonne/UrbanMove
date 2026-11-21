@@ -2,26 +2,33 @@
 
 Responsabilidad: Inicio y fin de viajes: duración, zona de origen/destino y coste preliminar.
 
-TODO:
-- POST /rides/start -> publica RideStarted
-- POST /rides/{id}/finish -> publica RideFinished
-- GET /rides?user_id=
 """
 
+import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
 from urbanmove_common.logging_utils import add_correlation_middleware, get_logger
 
-from .adapters.api import SERVICE_NAME, router
+from .adapters.api import SERVICE_NAME, register_error_handlers, router
+from .adapters.availability import HttpAvailabilityChecker
+from .adapters.db import SqliteRideRepository, init_db
+from .adapters.events import SnsEventPublisher
+from .domain.service import RideService
 
 logger = get_logger(SERVICE_NAME)
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Aquí se inicializa la base de datos propia del servicio (ver services/inventory/app/main.py)
+    init_db()
+    availability_url = os.getenv("AVAILABILITY_URL")
+    app.state.ride_service = RideService(
+        ride_repository=SqliteRideRepository(),
+        availability_checker=(HttpAvailabilityChecker(availability_url) if availability_url else None),
+        event_publisher=SnsEventPublisher(SERVICE_NAME),
+    )
     yield
 
 
@@ -33,4 +40,5 @@ app = FastAPI(
 )
 add_correlation_middleware(app, logger)
 
+register_error_handlers(app)
 app.include_router(router)
