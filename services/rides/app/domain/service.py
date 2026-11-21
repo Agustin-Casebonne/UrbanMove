@@ -29,8 +29,15 @@ def utc_now() -> datetime:
 def to_iso(dt: datetime) -> str:
     return dt.astimezone(timezone.utc).isoformat(timespec="seconds")
 
+
 class RideService:
-    def __init__(self, ride_repository: RideRepository, availability_checker: AvailabilityChecker, event_publisher: EventPublisher, clock: Callable[[], datetime] = utc_now):
+    def __init__(
+        self,
+        ride_repository: RideRepository,
+        availability_checker: AvailabilityChecker,
+        event_publisher: EventPublisher,
+        clock: Callable[[], datetime] = utc_now,
+    ):
         self.ride_repository = ride_repository
         self.availability_checker = availability_checker
         self.event_publisher = event_publisher
@@ -51,10 +58,12 @@ class RideService:
         """Lista viajes. Los filtros que lleguen como None no se aplican."""
         return self.ride_repository.list_rides(user_id=user_id, status=status)
 
-    def start_ride(self, user_id: str, vehicle_id: str, origin_zone: str, reservation_id: str | None = None) -> Ride:
+    def start_ride(
+        self, user_id: str, vehicle_id: str, origin_zone: str, reservation_id: str | None = None
+    ) -> Ride:
         if self.availability_checker is not None:
             self.availability_checker.check_vehicle(vehicle_id)
-        
+
         ride = Ride(
             ride_id=str(uuid.uuid4()),
             user_id=user_id,
@@ -79,7 +88,6 @@ class RideService:
             },
         )
         return ride
-
 
     def finish_ride(self, ride_id: str, destination_zone: str, battery_level: int | None = None) -> Ride:
         ride = self.get_ride(ride_id)

@@ -16,11 +16,10 @@ from fastapi import FastAPI
 from urbanmove_common.logging_utils import add_correlation_middleware, get_logger
 
 from .adapters.api import SERVICE_NAME, router
-from .adapters.db import init_db
-from .domain.service import RideService
-from .adapters.db import SqliteRideRepository
-from .adapters.events import SnsEventPublisher
 from .adapters.availability import HttpAvailabilityChecker
+from .adapters.db import SqliteRideRepository, init_db
+from .adapters.events import SnsEventPublisher
+from .domain.service import RideService
 
 logger = get_logger(SERVICE_NAME)
 
@@ -31,9 +30,7 @@ async def lifespan(app: FastAPI):
     availability_url = os.getenv("AVAILABILITY_URL")
     app.state.ride_service = RideService(
         ride_repository=SqliteRideRepository(),
-        availability_checker=(
-            HttpAvailabilityChecker(availability_url) if availability_url else None
-        ),
+        availability_checker=(HttpAvailabilityChecker(availability_url) if availability_url else None),
         event_publisher=SnsEventPublisher(SERVICE_NAME),
     )
     yield
