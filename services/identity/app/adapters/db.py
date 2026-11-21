@@ -8,7 +8,7 @@ import os
 
 import sqlite3
 
-from services.identity.app.domain.model import User, User_type
+from services.identity.app.domain.model import User, UserType
 
 def db_path():
     return os.getenv("DB_PATH", "identity.db")
@@ -66,7 +66,7 @@ class SqliteUserRepository:
                 user_id=row["user_id"],
                 email=row["email"],
                 password_hash=row["password_hash"],
-                type=User_type(row["type"]),
+                type=UserType(row["type"]),
                 created_at=row["created_at"],
             )
         
@@ -81,6 +81,6 @@ class SqliteUserRepository:
                 user_id=row["user_id"],
                 email=row["email"],
                 password_hash=row["password_hash"],
-                type=User_type(row["type"]),
+                type=UserType(row["type"]),
                 created_at=row["created_at"],
             )

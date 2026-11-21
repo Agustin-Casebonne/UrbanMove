@@ -12,7 +12,7 @@ from pydantic import BaseModel
 from pydantic import BaseModel
 
 
-class User_type(str, Enum):
+class UserType(str, Enum):
     """Tipos de usuario."""
 
     USER = "USER"
@@ -25,7 +25,7 @@ class User(BaseModel):
     user_id: str
     email: str
     password_hash: str
-    role: User_type
+    role: UserType
     created_at: str
 
 
