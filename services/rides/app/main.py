@@ -8,6 +8,7 @@ TODO:
 - GET /rides?user_id=
 """
 
+import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
@@ -27,10 +28,13 @@ logger = get_logger(SERVICE_NAME)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     init_db()
+    availability_url = os.getenv("AVAILABILITY_URL")
     app.state.ride_service = RideService(
         ride_repository=SqliteRideRepository(),
-        availability_checker=HttpAvailabilityChecker(),
-        event_publisher=SnsEventPublisher(),
+        availability_checker=(
+            HttpAvailabilityChecker(availability_url) if availability_url else None
+        ),
+        event_publisher=SnsEventPublisher(SERVICE_NAME),
     )
     yield
 

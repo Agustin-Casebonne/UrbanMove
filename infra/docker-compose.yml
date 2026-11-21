@@ -114,11 +114,14 @@ services:
       - "8006:8000"
     environment:
       <<: *service-env
+      AVAILABILITY_URL: http://availability:8000
     volumes:
       - rides-data:/data
     depends_on:
       localstack:
         condition: service_healthy
+      availability:
+        condition: service_started
     restart: unless-stopped
 
   history:
