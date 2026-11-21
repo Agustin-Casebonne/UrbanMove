@@ -34,7 +34,7 @@ class RideService:
     def __init__(
         self,
         ride_repository: RideRepository,
-        availability_checker: AvailabilityChecker,
+        availability_checker:   AvailabilityChecker | None,
         event_publisher: EventPublisher,
         clock: Callable[[], datetime] = utc_now,
     ):
