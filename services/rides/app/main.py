@@ -15,13 +15,23 @@ from fastapi import FastAPI
 from urbanmove_common.logging_utils import add_correlation_middleware, get_logger
 
 from .adapters.api import SERVICE_NAME, router
+from .adapters.db import init_db
+from .domain.service import RideService
+from .adapters.db import SqliteRideRepository
+from .adapters.events import SnsEventPublisher
+from .adapters.availability import HttpAvailabilityChecker
 
 logger = get_logger(SERVICE_NAME)
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Aquí se inicializa la base de datos propia del servicio (ver services/inventory/app/main.py)
+    init_db()
+    app.state.ride_service = RideService(
+        ride_repository=SqliteRideRepository(),
+        availability_checker=HttpAvailabilityChecker(),
+        event_publisher=SnsEventPublisher(),
+    )
     yield
 
 
