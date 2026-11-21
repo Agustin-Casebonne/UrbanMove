@@ -3,14 +3,16 @@
 Ejemplo: services/inventory/app/domain/service.py
 """
 
-from datetime import datetime, timezone
 import uuid
+from datetime import datetime, timezone
 
-from .model import User, UserAlreadyExists, InvalidCredentials, WeakPassword, UserNotFound
+from .model import InvalidCredentials, User, UserAlreadyExists, UserNotFound, WeakPassword
+
 
 def now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
-    
+
+
 class IdentityService:
     def __init__(self, user_repository, token_issuer, password_hasher, event_publisher):
         self.user_repository = user_repository
@@ -30,13 +32,13 @@ class IdentityService:
     def register_user(self, email, password, role):
         """Da de alta un usuario nuevo. Si ya existía, lanza UserAlreadyExists."""
         if len(password) < 8:
-                    raise WeakPassword("Password does not meet security requirements.")
-        
+            raise WeakPassword("Password does not meet security requirements.")
+
         existing = self.user_repository.get_by_email(email)
         if existing is not None:
             raise UserAlreadyExists(email)
         password_hash = self.password_hasher.hash_password(password)
-        
+
         user = User(
             user_id=str(uuid.uuid4()),
             email=email,
@@ -45,9 +47,14 @@ class IdentityService:
             created_at=now_iso(),
         )
         self.user_repository.save(user)
-        self.event_publisher.publish("UserRegistered", {
-            "user_id": user.user_id, "email": user.email, "role": user.role.value,
-        })
+        self.event_publisher.publish(
+            "UserRegistered",
+            {
+                "user_id": user.user_id,
+                "email": user.email,
+                "role": user.role.value,
+            },
+        )
         return user
 
     def validate_token(self, token):

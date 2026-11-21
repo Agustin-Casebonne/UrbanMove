@@ -5,11 +5,11 @@ Ejemplo: services/inventory/app/adapters/db.py
 """
 
 import os
-
 import sqlite3
 
 from ..domain.model import User, UserRole
 from ..ports.ports import UserRepository
+
 
 def db_path():
     return os.getenv("DB_PATH", "identity.db")
@@ -67,7 +67,6 @@ class SqliteUserRepository(UserRepository):
                 role=UserRole(row["role"]),
                 created_at=row["created_at"],
             )
-        
 
     def get_by_email(self, email):
         """Busca un usuario por su email. Devuelve None si no existe."""

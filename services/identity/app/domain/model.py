@@ -3,11 +3,7 @@
 Ejemplo: services/inventory/app/domain/model.py
 """
 
-
-from  enum import Enum
-
-
-from pydantic import BaseModel
+from enum import Enum
 
 from pydantic import BaseModel
 
@@ -20,7 +16,6 @@ class UserRole(str, Enum):
     MAINTENANCE = "MAINTENANCE"
 
 
-
 class User(BaseModel):
     user_id: str
     email: str
@@ -29,19 +24,19 @@ class User(BaseModel):
     created_at: str
 
 
-class UserAlreadyExists(Exception):     
+class UserAlreadyExists(Exception):
     pass
 
 
-class InvalidCredentials(Exception):  
+class InvalidCredentials(Exception):
     pass
 
 
-class InvalidToken(Exception):          
+class InvalidToken(Exception):
     pass
 
 
-class WeakPassword(Exception):          
+class WeakPassword(Exception):
     pass
 
 
