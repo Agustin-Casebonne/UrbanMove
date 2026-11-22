@@ -6,7 +6,7 @@ Ejemplo: services/inventory/app/domain/service.py
 import uuid
 from datetime import datetime, timezone
 
-from .model import InvalidCredentials, User, UserPublic, UserAlreadyExists, UserNotFound, WeakPassword
+from .model import InvalidCredentials, User, UserAlreadyExists, UserNotFound, WeakPassword
 
 
 def now_iso() -> str:
@@ -27,12 +27,7 @@ class IdentityService:
         user = self.user_repository.get_user(user_id)
         if user is None:
             raise UserNotFound(user_id)
-        return UserPublic(
-            user_id=user.user_id,
-            email=user.email,
-            role=user.role,
-            created_at=user.created_at,
-        )
+        return user
 
     def register_user(self, email, password, role):
         """Da de alta un usuario nuevo. Si ya existía, lanza UserAlreadyExists."""

@@ -39,6 +39,7 @@ services:
       - "8001:8000"
     environment:
       <<: *service-env
+      JWT_SECRET: "${JWT_SECRET:?Define JWT_SECRET en infra/.env (ver infra/.env.example)}"
     volumes:
       - identity-data:/data
     depends_on:
