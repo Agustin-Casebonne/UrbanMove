@@ -27,7 +27,7 @@ logger = get_logger(SERVICE_NAME)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     init_db()
-    app.state.profiles_service = ProfileService(SqliteProfileRepository)
+    app.state.profiles_service = ProfileService(SqliteProfileRepository())
     yield
 
 
