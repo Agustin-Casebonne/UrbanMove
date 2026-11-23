@@ -17,12 +17,17 @@ from urbanmove_common.logging_utils import add_correlation_middleware, get_logge
 
 from .adapters.api import SERVICE_NAME, router
 
+from .domain.service import ProfileService
+
+from .adapters.db import init_db, SqliteProfileRepository
+
 logger = get_logger(SERVICE_NAME)
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Aquí se inicializa la base de datos propia del servicio (ver services/inventory/app/main.py)
+    init_db()
+    app.state.profiles_service = ProfileService(SqliteProfileRepository)
     yield
 
 
