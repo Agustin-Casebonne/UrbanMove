@@ -48,9 +48,7 @@ class SqsEventConsumer:
         if self._thread and self._thread.is_alive():
             return
         self._stop.clear()
-        self._thread = threading.Thread(
-            target=self._run, name=f"consumer-{self.queue_name}", daemon=True
-        )
+        self._thread = threading.Thread(target=self._run, name=f"consumer-{self.queue_name}", daemon=True)
         self._thread.start()
 
     def stop(self) -> None:
@@ -89,9 +87,7 @@ class SqsEventConsumer:
         deleted = 0
         for message in response.get("Messages", []):
             if self._process(message):
-                self._sqs.delete_message(
-                    QueueUrl=self._queue_url, ReceiptHandle=message["ReceiptHandle"]
-                )
+                self._sqs.delete_message(QueueUrl=self._queue_url, ReceiptHandle=message["ReceiptHandle"])
                 deleted += 1
         return deleted
 
@@ -105,7 +101,5 @@ class SqsEventConsumer:
             self.handler(event)
             return True
         except Exception as exc:  # noqa: BLE001 - se deja en la cola para reintento/DLQ
-            logger.error(
-                f"error procesando {event.get('event_type')} ({event.get('event_id')}): {exc}"
-            )
+            logger.error(f"error procesando {event.get('event_type')} ({event.get('event_id')}): {exc}")
             return False
