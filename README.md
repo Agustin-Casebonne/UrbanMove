@@ -34,7 +34,7 @@ docs/          arquitectura, contratos de APIs y eventos, ADRs, evidencias
 
 | Servicio | Puerto local | Estado |
 |---|---|---|
-| identity | 8001 | esqueleto |
+| identity | 8001 | **implementado** |
 | profiles | 8002 | esqueleto |
 | inventory | 8003 | **implementado** (plantilla de referencia) |
 | availability | 8004 | **implementado** |
@@ -72,3 +72,12 @@ Esto arranca LocalStack (crea el tópico SNS, las colas SQS, la DLQ y el bucket 
 
 <img width="877" height="447" alt="image" src="https://github.com/user-attachments/assets/063b0646-2280-45fa-baef-0d8e44431050" />
 
+## Identity
+
+El servicio exige la variable `JWT_SECRET` (no hay valor por defecto: si falta, no arranca).
+
+- **Docker Compose:** copia `infra/.env.example` a `infra/.env` y pon tu secreto. Genera uno con
+  `python -c "import secrets; print(secrets.token_urlsafe(48))"`.
+- **Local con uvicorn** (desde `services/identity`):
+  `uvicorn app.main:app --env-file ../../infra/.env`
+- **Tests:** no hace falta configurar nada, `tests/conftest.py` define un valor de prueba.

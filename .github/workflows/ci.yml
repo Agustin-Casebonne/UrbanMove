@@ -34,7 +34,7 @@ jobs: # se corren varios jobs en paralelo, cada uno con un nombre y un conjunto 
         with:
           python-version: "3.12"
           cache: pip
-      - run: pip install -r requirements-dev.txt
+      - run: pip install -r requirements-dev.txt -r services/${{ matrix.service }}/requirements.txt
       - name: pytest
         working-directory: services/${{ matrix.service }} #se mete en la carpeta del servicio que se esta probando
         env:
