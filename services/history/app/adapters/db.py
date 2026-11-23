@@ -32,7 +32,7 @@ def init_db() -> None:
                 event_id                TEXT PRIMARY KEY,
                 event_type              TEXT NOT NULL,
                 vehicle_id              TEXT,
-                timestamp               TEXT NOT NULL,              
+                timestamp               TEXT NOT NULL,
                 correlation_id          TEXT NOT NULL,
                 payload                 TEXT NOT NULL
             )
