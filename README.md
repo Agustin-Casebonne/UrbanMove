@@ -34,7 +34,7 @@ docs/          arquitectura, contratos de APIs y eventos, ADRs, evidencias
 
 | Servicio | Puerto local | Estado |
 |---|---|---|
-| identity | 8001 | esqueleto |
+| identity | 8001 | **implementado** |
 | profiles | 8002 | esqueleto |
 | inventory | 8003 | **implementado** (plantilla de referencia) |
 | availability | 8004 | **implementado** |
