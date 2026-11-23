@@ -14,7 +14,7 @@ awslocal sqs create-queue --queue-name urbanmove-dlq
 DLQ_ARN=arn:aws:sqs:$REGION:$ACCOUNT:urbanmove-dlq
 
 # Una cola por consumidor (cada uno procesa a su ritmo y puede caerse sin afectar a los demás)
-for Q in history availability datalake-ingest maintenance-detector; do
+for Q in history availability profiles datalake-ingest maintenance-detector; do
   echo "== Cola urbanmove-$Q"
   awslocal sqs create-queue --queue-name "urbanmove-$Q" \
     --attributes "{\"RedrivePolicy\":\"{\\\"deadLetterTargetArn\\\":\\\"$DLQ_ARN\\\",\\\"maxReceiveCount\\\":\\\"3\\\"}\",\"VisibilityTimeout\":\"30\"}"

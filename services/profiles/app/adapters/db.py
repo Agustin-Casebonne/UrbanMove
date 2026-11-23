@@ -62,9 +62,7 @@ class SqliteProfileRepository(ProfileRepository):
 
     def get_profile(self, user_id: str) -> Profile | None:
         with get_conn() as conn:
-            row = conn.execute(
-                "SELECT * FROM profiles WHERE user_id = ?", (user_id,)
-            ).fetchone()
+            row = conn.execute("SELECT * FROM profiles WHERE user_id = ?", (user_id,)).fetchone()
         return _row_to_profile(row) if row else None
 
     def save(self, profile: Profile) -> None:
