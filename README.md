@@ -28,7 +28,8 @@ docs/          arquitectura, contratos de APIs y eventos, ADRs, evidencias
 
 <img width="1017" height="610" alt="image" src="https://github.com/user-attachments/assets/ba3e8d21-01da-4a31-9e99-cc505f388338" />
 
-<img width="1127" height="622" alt="image" src="https://github.com/user-attachments/assets/8463f6db-46bb-4ee6-b518-95efe8a753d7" />
+<img width="1275" height="586" alt="image" src="https://github.com/user-attachments/assets/c700d533-267c-4d6e-b21d-26cb6368da99" />
+
 
 ## Microservicios
 
