@@ -40,7 +40,7 @@ docs/          arquitectura, contratos de APIs y eventos, ADRs, evidencias
 | availability | 8004 | **implementado** |
 | reservations | 8005 | **implementado** (ver `docs/reservations.md`) |
 | rides | 8006 | **implementado** |
-| history | 8007 | esqueleto |
+| history | 8007 | **implementado** |
 | maintenance | 8008 | esqueleto |
 | relocation | 8009 | esqueleto |
 | analytics | 8010 | esqueleto |
