@@ -11,6 +11,9 @@ from ..domain.model import HistoryEntry
 
 class HistoryRepository(ABC):
     @abstractmethod
+    def ping(self) -> None: ...
+
+    @abstractmethod
     def save(self, entry: HistoryEntry) -> None: ...
 
     @abstractmethod
