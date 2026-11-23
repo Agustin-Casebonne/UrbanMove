@@ -48,7 +48,7 @@ class ProfileService:
         profile.name=name
         profile.phone_number=phone_number
         profile.preferred_vehicle_type=preferred_vehicle_type
-        updated_at=now_iso()
+        profile.updated_at=now_iso()
         self.profile_repository.update(profile)
 
         return profile
