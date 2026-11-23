@@ -18,8 +18,9 @@ def db_path() -> str:
 
 def get_conn() -> sqlite3.Connection:
     conn = sqlite3.connect(db_path(), timeout=5)
-    conn.row_factory = sqlite3.Row  
+    conn.row_factory = sqlite3.Row
     return conn
+
 
 def init_db() -> None:
     """Crea la tabla si no existe. Se llama al arrancar el servicio."""
@@ -44,7 +45,6 @@ class SqliteHistoryRepository(HistoryRepository):
         with get_conn() as conn:
             conn.execute("SELECT 1")
 
-
     def save(self, entry):
         with get_conn() as conn:
             conn.execute(
@@ -64,9 +64,7 @@ class SqliteHistoryRepository(HistoryRepository):
 
     def exists(self, event_id):
         with get_conn() as conn:
-            row = conn.execute(
-                "SELECT 1 FROM history WHERE event_id = ?", (event_id,)
-            ).fetchone()
+            row = conn.execute("SELECT 1 FROM history WHERE event_id = ?", (event_id,)).fetchone()
         return row is not None
 
     def by_user(self, user_id):
