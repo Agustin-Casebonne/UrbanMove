@@ -1,4 +1,11 @@
-"""Modelo de dominio de history: entidades, estados y reglas del negocio.
+from pydantic import BaseModel
 
-Ejemplo: services/inventory/app/domain/model.py
-"""
+
+class HistoryEntry(BaseModel):
+    event_id: str
+    event_type: str
+    user_id: str | None = None
+    vehicle_id: str | None = None
+    timestamp: str
+    correlation_id: str
+    payload: dict
