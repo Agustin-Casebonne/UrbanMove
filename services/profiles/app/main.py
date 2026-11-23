@@ -9,10 +9,12 @@ TODO:
 - DELETE /users/{id} (baja lógica)
 """
 
+import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
+from urbanmove_common.consumer import SqsEventConsumer
 from urbanmove_common.logging_utils import add_correlation_middleware, get_logger
 
 from .adapters.api import SERVICE_NAME, router
@@ -27,8 +29,19 @@ logger = get_logger(SERVICE_NAME)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     init_db()
-    app.state.profiles_service = ProfileService(SqliteProfileRepository())
+    service = ProfileService(SqliteProfileRepository())
+    app.state.profiles_service = service
+
+    consumer = None
+    if os.getenv("AWS_ENDPOINT_URL"):
+        consumer = SqsEventConsumer(
+            "urbanmove-profiles",
+            lambda event: service.handle_event(event["event_type"], event["data"]),
+        )
+        consumer.start()
     yield
+    if consumer:
+        consumer.stop()
 
 
 app = FastAPI(

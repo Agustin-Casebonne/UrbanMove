@@ -62,4 +62,8 @@ class ProfileService:
 
         return profile
 
-    
+    def handle_event(self, event_type, data):
+        if event_type == "UserRegistered":
+            email = data["email"]
+            self.create_profile(data["user_id"], email.split("@")[0], email)
+        # cualquier otro evento se ignora
