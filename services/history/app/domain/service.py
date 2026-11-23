@@ -2,3 +2,4 @@
 
 Ejemplo: services/inventory/app/domain/service.py
 """
+
