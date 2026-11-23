@@ -17,6 +17,9 @@ class ProfileService:
     def __init__(self, profile_repository: ProfileRepository):
         self.profile_repository = profile_repository
 
+    def check_health(self):
+        self.profile_repository.ping()
+
     def get_profile(self, user_id):
         profile = self.profile_repository.get_profile(user_id)
         if profile is None:
