@@ -32,5 +32,6 @@ class Profile(BaseModel):
             raise ValueError("name no puede estar vacío")
         return v
 
+
 class ProfileNotFound(Exception):
     pass

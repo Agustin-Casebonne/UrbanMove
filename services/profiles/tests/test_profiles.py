@@ -11,9 +11,7 @@ def _new_id() -> str:
 
 def _create(client, user_id=None, name="Ana", email="ana@example.com"):
     user_id = user_id or _new_id()
-    r = client.post(
-        "/profiles", json={"user_id": user_id, "name": name, "email": email}
-    )
+    r = client.post("/profiles", json={"user_id": user_id, "name": name, "email": email})
     return user_id, r
 
 

@@ -38,9 +38,7 @@ def health(request: Request):
 @router.post("/profiles", response_model=Profile, status_code=201)
 def create_profile(body: ProfileIn, request: Request):
     try:
-        return request.app.state.profiles_service.create_profile(
-            body.user_id, body.name, body.email
-        )
+        return request.app.state.profiles_service.create_profile(body.user_id, body.name, body.email)
     except ValueError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
 
