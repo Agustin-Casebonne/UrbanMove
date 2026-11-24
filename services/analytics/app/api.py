@@ -1,7 +1,7 @@
 """Adaptador de entrada: endpoints REST de analytics.
 
-Solo traduce HTTP <-> dominio. La lógica va en domain/service.py.
-Ejemplo completo: services/inventory/app/adapters/api.py
+Solo traduce HTTP <-> dominio. La lógica va en service.py.
+Ejemplo completo: services/inventory/app/api.py
 """
 
 from fastapi import APIRouter

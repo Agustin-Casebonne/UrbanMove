@@ -13,7 +13,7 @@ Qué hace:
 import logging
 from datetime import datetime, timezone
 
-from .model import (
+from .domain.model import (
     InvalidTransition,
     Vehicle,
     VehicleNotFound,

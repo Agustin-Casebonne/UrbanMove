@@ -19,7 +19,7 @@ from app.domain.model import (
     VehicleNotAvailable,
     VehicleType,
 )
-from app.domain.service import ReservationService
+from app.service import ReservationService
 
 
 class FakePublisher:

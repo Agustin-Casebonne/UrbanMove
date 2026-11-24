@@ -1,6 +1,6 @@
 """Adaptador de entrada: endpoints REST de reservations.
 
-Solo traduce HTTP <-> dominio. La lógica está en domain/service.py.
+Solo traduce HTTP <-> dominio. La lógica está en service.py.
 
 Códigos de respuesta:
 - 201 reserva creada
@@ -14,7 +14,7 @@ Códigos de respuesta:
 from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel
 
-from ..domain.model import (
+from .domain.model import (
     AvailabilityServiceDown,
     InvalidTransition,
     Reservation,
@@ -27,7 +27,7 @@ from ..domain.model import (
     VehicleNotFound,
     VehicleType,
 )
-from ..domain.service import ReservationService
+from .service import ReservationService
 
 SERVICE_NAME = "reservations"
 

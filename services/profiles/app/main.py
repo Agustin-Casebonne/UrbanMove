@@ -17,9 +17,9 @@ from fastapi import FastAPI
 from urbanmove_common.consumer import SqsEventConsumer
 from urbanmove_common.logging_utils import add_correlation_middleware, get_logger
 
-from .adapters.api import SERVICE_NAME, router
 from .adapters.db import SqliteProfileRepository, init_db
-from .domain.service import ProfileService
+from .api import SERVICE_NAME, router
+from .service import ProfileService
 
 logger = get_logger(SERVICE_NAME)
 

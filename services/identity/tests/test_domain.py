@@ -14,8 +14,8 @@ from app.domain.model import (
     UserRole,
     WeakPassword,
 )
-from app.domain.service import IdentityService
 from app.ports.ports import EventPublisher, PasswordHasher, TokenIssuer, UserRepository
+from app.service import IdentityService
 
 
 class FakeUserRepository(UserRepository):

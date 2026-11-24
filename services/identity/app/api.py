@@ -1,7 +1,7 @@
 """Adaptador de entrada: endpoints REST de identity.
 
-Solo traduce HTTP <-> dominio. La lógica va en domain/service.py.
-Ejemplo completo: services/inventory/app/adapters/api.py
+Solo traduce HTTP <-> dominio. La lógica va en service.py.
+Ejemplo completo: services/inventory/app/api.py
 """
 
 from typing import Annotated
@@ -9,7 +9,7 @@ from typing import Annotated
 from fastapi import APIRouter, Header, HTTPException, Request
 from pydantic import BaseModel
 
-from ..domain.model import (
+from .domain.model import (
     InvalidCredentials,
     InvalidToken,
     UserAlreadyExists,

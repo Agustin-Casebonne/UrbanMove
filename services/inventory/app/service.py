@@ -7,8 +7,8 @@ SQLite ni SNS.
 import uuid
 from datetime import date, datetime, timezone
 
-from ..ports.ports import EventPublisher, VehicleRepository
-from .model import AdminStatus, Vehicle, VehicleNotFound, VehicleType
+from .domain.model import AdminStatus, Vehicle, VehicleNotFound, VehicleType
+from .ports.ports import EventPublisher, VehicleRepository
 
 
 class InventoryService:

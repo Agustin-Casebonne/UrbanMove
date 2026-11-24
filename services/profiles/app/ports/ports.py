@@ -13,16 +13,17 @@ class ProfileRepository(ABC):
     """Repositorio de perfiles: define las operaciones que el dominio necesita del exterior."""
 
     @abstractmethod
-    def get_profile(self, user_id: str) -> Profile | None:
-        """Obtiene un usuario por su ID."""
-        pass
+    def ping(self) -> None:
+        """Comprueba que la base de datos responde."""
 
     @abstractmethod
-    def save(self, user: Profile) -> None:
+    def get_profile(self, user_id: str) -> Profile | None:
+        """Obtiene un usuario por su ID."""
+
+    @abstractmethod
+    def save(self, profile: Profile) -> None:
         """Crea un nuevo perfil."""
-        pass
 
     @abstractmethod
     def update(self, user: Profile) -> None:
         """Actualiza un perfil existente."""
-        pass

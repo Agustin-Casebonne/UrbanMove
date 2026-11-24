@@ -15,8 +15,8 @@ import uuid
 from collections.abc import Callable
 from datetime import datetime, timezone
 
-from ..ports.ports import AvailabilityChecker, EventPublisher, RideRepository
-from .model import Ride, RideNotFound, RideStatus
+from .domain.model import Ride, RideNotFound, RideStatus
+from .ports.ports import AvailabilityChecker, EventPublisher, RideRepository
 
 UNLOCK_FEE = 0.50  # euros por desbloquear
 PRICE_PER_MIN = 0.15  # euros por minuto
