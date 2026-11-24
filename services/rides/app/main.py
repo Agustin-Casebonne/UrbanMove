@@ -11,11 +11,11 @@ from fastapi import FastAPI
 
 from urbanmove_common.logging_utils import add_correlation_middleware, get_logger
 
-from .adapters.api import SERVICE_NAME, router
 from .adapters.availability import HttpAvailabilityChecker
 from .adapters.db import SqliteRideRepository, init_db
 from .adapters.events import SnsEventPublisher
-from .domain.service import RideService
+from .api import SERVICE_NAME, router
+from .service import RideService
 
 logger = get_logger(SERVICE_NAME)
 

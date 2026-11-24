@@ -1,13 +1,13 @@
 """Adaptador de entrada: endpoints REST de profiles.
 
-Solo traduce HTTP <-> dominio. La lógica va en domain/service.py.
-Ejemplo completo: services/inventory/app/adapters/api.py
+Solo traduce HTTP <-> dominio. La lógica va en service.py.
+Ejemplo completo: services/inventory/app/api.py
 """
 
 from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 
-from ..domain.model import Profile, ProfileNotFound, VehicleType
+from .domain.model import Profile, ProfileNotFound, VehicleType
 
 SERVICE_NAME = "profiles"
 

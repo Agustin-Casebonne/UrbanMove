@@ -1,12 +1,12 @@
 """Lógica de negocio de identity. Solo usa domain/model.py y ports/ports.py.
 
-Ejemplo: services/inventory/app/domain/service.py
+Ejemplo: services/inventory/app/service.py
 """
 
 import uuid
 from datetime import datetime, timezone
 
-from .model import InvalidCredentials, User, UserAlreadyExists, UserNotFound, WeakPassword
+from .domain.model import InvalidCredentials, User, UserAlreadyExists, UserNotFound, WeakPassword
 
 
 def now_iso() -> str:

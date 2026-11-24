@@ -5,7 +5,7 @@ from datetime import datetime, timedelta, timezone
 import pytest
 
 from app.domain.model import RideNotFound, RideStatus, VehicleNotAvailable
-from app.domain.service import RideService
+from app.service import RideService
 
 
 class FakeRepo:

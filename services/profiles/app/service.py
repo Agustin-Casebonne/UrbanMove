@@ -1,12 +1,12 @@
 """Lógica de negocio de profiles. Solo usa domain/model.py y ports/ports.py.
 
-Ejemplo: services/inventory/app/domain/service.py
+Ejemplo: services/inventory/app/service.py
 """
 
 from datetime import datetime, timezone
 
-from ..domain.model import Profile, ProfileNotFound
-from ..ports.ports import ProfileRepository
+from .domain.model import Profile, ProfileNotFound
+from .ports.ports import ProfileRepository
 
 
 def now_iso():

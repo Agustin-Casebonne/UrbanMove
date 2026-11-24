@@ -1,7 +1,7 @@
 """Adaptador de entrada: endpoints REST del inventario.
 
 Solo traduce HTTP <-> dominio (JSON, códigos 201/404/503). La lógica está
-en domain/service.py.
+en service.py.
 """
 
 from datetime import date
@@ -9,8 +9,8 @@ from datetime import date
 from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel
 
-from ..domain.model import AdminStatus, Vehicle, VehicleNotFound, VehicleType
-from ..domain.service import InventoryService
+from .domain.model import AdminStatus, Vehicle, VehicleNotFound, VehicleType
+from .service import InventoryService
 
 SERVICE_NAME = "inventory"
 

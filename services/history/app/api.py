@@ -1,14 +1,14 @@
 """Adaptador de entrada: endpoints REST de history.
 
 Solo traduce HTTP <-> dominio (JSON, códigos 200/503). La lógica está
-en domain/service.py. History es de solo lectura por HTTP: los datos
+en service.py. History es de solo lectura por HTTP: los datos
 entran por la cola SQS (ver main.py).
 """
 
 from fastapi import APIRouter, Depends, HTTPException, Request
 
-from ..domain.model import HistoryEntry
-from ..domain.service import HistoryService
+from .domain.model import HistoryEntry
+from .service import HistoryService
 
 SERVICE_NAME = "history"
 

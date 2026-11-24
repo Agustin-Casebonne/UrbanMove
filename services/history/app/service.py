@@ -1,10 +1,10 @@
 """Lógica de negocio de history. Solo usa domain/model.py y ports/ports.py.
 
-Ejemplo: services/inventory/app/domain/service.py
+Ejemplo: services/inventory/app/service.py
 """
 
-from ..ports.ports import HistoryRepository
-from .model import HistoryEntry
+from .domain.model import HistoryEntry
+from .ports.ports import HistoryRepository
 
 
 class HistoryService:

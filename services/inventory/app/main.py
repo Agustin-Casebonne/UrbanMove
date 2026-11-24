@@ -8,9 +8,9 @@ servicio de disponibilidad.
 
 Estructura hexagonal:
 - domain/model.py    -> VehicleType, AdminStatus, Vehicle
-- domain/service.py  -> lógica de negocio (solo usa los puertos)
+- service.py  -> lógica de negocio (solo usa los puertos)
 - ports/ports.py     -> contratos: VehicleRepository, EventPublisher
-- adapters/api.py    -> entrada: endpoints REST
+- api.py    -> entrada: endpoints REST
 - adapters/db.py     -> salida: SQLite (implementa VehicleRepository)
 - adapters/events.py -> salida: SNS (implementa EventPublisher)
 
@@ -23,10 +23,10 @@ from fastapi import FastAPI
 
 from urbanmove_common.logging_utils import add_correlation_middleware, get_logger
 
-from .adapters.api import SERVICE_NAME, router
 from .adapters.db import SqliteVehicleRepository, init_db
 from .adapters.events import SnsEventPublisher
-from .domain.service import InventoryService
+from .api import SERVICE_NAME, router
+from .service import InventoryService
 
 logger = get_logger(SERVICE_NAME)
 

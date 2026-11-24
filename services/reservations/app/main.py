@@ -9,9 +9,9 @@ reserva, consultando a availability si AVAILABILITY_URL está configurada.
 
 Estructura hexagonal:
 - domain/model.py          -> Reservation, ReservationStatus, errores
-- domain/service.py        -> lógica de negocio (solo usa los puertos)
+- service.py        -> lógica de negocio (solo usa los puertos)
 - ports/ports.py           -> contratos: ReservationRepository, EventPublisher, AvailabilityChecker
-- adapters/api.py          -> entrada: endpoints REST
+- api.py          -> entrada: endpoints REST
 - adapters/db.py           -> salida: SQLite (implementa ReservationRepository)
 - adapters/events.py       -> salida: SNS (implementa EventPublisher)
 - adapters/availability.py -> salida: HTTP a availability (implementa AvailabilityChecker)
@@ -30,11 +30,11 @@ from fastapi import FastAPI
 
 from urbanmove_common.logging_utils import add_correlation_middleware, get_logger
 
-from .adapters.api import SERVICE_NAME, router
 from .adapters.availability import HttpAvailabilityChecker
 from .adapters.db import SqliteReservationRepository, init_db
 from .adapters.events import SnsEventPublisher
-from .domain.service import ReservationService
+from .api import SERVICE_NAME, router
+from .service import ReservationService
 
 logger = get_logger(SERVICE_NAME)
 

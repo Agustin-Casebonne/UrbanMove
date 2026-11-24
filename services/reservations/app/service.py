@@ -18,8 +18,7 @@ import uuid
 from collections.abc import Callable
 from datetime import datetime, timedelta, timezone
 
-from ..ports.ports import AvailabilityChecker, EventPublisher, ReservationRepository
-from .model import (
+from .domain.model import (
     ACTIVE_STATUSES,
     InvalidTransition,
     Reservation,
@@ -28,6 +27,7 @@ from .model import (
     ReservationStatus,
     VehicleType,
 )
+from .ports.ports import AvailabilityChecker, EventPublisher, ReservationRepository
 
 
 def utc_now() -> datetime:

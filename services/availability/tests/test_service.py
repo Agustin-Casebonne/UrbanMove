@@ -5,7 +5,7 @@ import pytest
 
 from app.adapters.db import SqliteVehicleRepository, init_db
 from app.domain.model import InvalidTransition, VehicleNotFound, VehicleStatus
-from app.domain.service import AvailabilityService
+from app.service import AvailabilityService
 
 
 class FakePublisher:

@@ -1,12 +1,12 @@
 """Adaptador de entrada: endpoints REST de availability.
 
-Solo traduce HTTP <-> dominio. La lógica va en domain/service.py.
-Ejemplo completo: services/inventory/app/adapters/api.py
+Solo traduce HTTP <-> dominio. La lógica va en service.py.
+Ejemplo completo: services/inventory/app/api.py
 """
 
 from fastapi import APIRouter, HTTPException, Request
 
-from ..domain.model import InvalidTransition, Vehicle, VehicleNotFound, VehicleStatus
+from .domain.model import InvalidTransition, Vehicle, VehicleNotFound, VehicleStatus
 
 SERVICE_NAME = "availability"
 

@@ -44,7 +44,7 @@ class Reservation(BaseModel):
     updated_at: str
 
 
-# --- Errores de dominio (adapters/api.py los traduce a códigos HTTP) ---
+# --- Errores de dominio (api.py los traduce a códigos HTTP) ---
 
 
 class ReservationNotFound(Exception):
