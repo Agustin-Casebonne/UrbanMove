@@ -3,6 +3,7 @@
 Eventos de maintenance: VehicleWithdrawnForMaintenance, VehicleReturnedToService.
 Ejemplo: services/inventory/app/adapters/events.py
 """
+
 from urbanmove_common.events import emit
 
 from ..ports.ports import EventPublisher
