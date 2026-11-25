@@ -182,6 +182,11 @@ class AvailabilityService:
 
         elif event_type == "VehicleWithdrawnForMaintenance":
             self.transition(data["vehicle_id"], VehicleStatus.WITHDRAWN)
+            # El tipo de orden de maintenance decide a qué estado pasa después de retirarlo.
+            if data.get("type") == "CHARGE":
+                self.transition(data["vehicle_id"], VehicleStatus.CHARGING)
+            elif data.get("type") == "REPAIR":
+                self.transition(data["vehicle_id"], VehicleStatus.REPAIRING)
 
         elif event_type == "VehicleReturnedToService":
             # Según las reglas, solo se vuelve a AVAILABLE desde READY_FOR_SERVICE.
