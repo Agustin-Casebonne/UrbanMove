@@ -21,7 +21,6 @@ from .domain.model import (
     MaintenanceOrderNotFound,
     MaintenanceStatus,
     MaintenanceType,
-    OrderAlreadyOpen,
 )
 from .ports.ports import EventPublisher, MaintenanceOrderRepository
 
@@ -86,15 +85,6 @@ class MaintenanceService:
         if changed:
             self.publisher.publish("VehicleReturnedToService", self._event_data(order))
         return order
-
-    def handle_event(self, event: dict) -> None:
-        if event.get("event_type") != "VehicleBatteryLow":
-            return
-        vehicle_id = event["data"]["vehicle_id"]
-        try:
-            self.create_order(vehicle_id, MaintenanceType.CHARGE, "batería baja")
-        except OrderAlreadyOpen:
-            pass
 
     def _transition(
         self, order_id: str, from_status: MaintenanceStatus, to_status: MaintenanceStatus, action: str

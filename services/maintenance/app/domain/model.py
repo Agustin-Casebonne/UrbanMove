@@ -18,25 +18,17 @@ from enum import Enum
 from pydantic import BaseModel
 
 
-class MaintenanceType(Enum):
+class MaintenanceType(str, Enum):
     CHARGE= "CHARGE"
     REPAIR= "REPAIR"
     REVIEW= "REVIEW"
 
-class MaintenanceStatus(Enum):
+class MaintenanceStatus(str, Enum):
     OPEN= "OPEN"
     ASSIGNED= "ASSIGNED"
     IN_PROGRESS= "IN_PROGRESS"
     COMPLETED= "COMPLETED"
 
-
-# Desde cada estado (clave), a qué estados se puede pasar (valor).
-VALID_TRANSITIONS = {
-    MaintenanceStatus.OPEN: (MaintenanceStatus.ASSIGNED,),
-    MaintenanceStatus.ASSIGNED: (MaintenanceStatus.IN_PROGRESS,),
-    MaintenanceStatus.IN_PROGRESS: (MaintenanceStatus.COMPLETED,),
-    MaintenanceStatus.COMPLETED: (),
-}
 
 
 class MaintenanceOrder(BaseModel):
@@ -48,8 +40,6 @@ class MaintenanceOrder(BaseModel):
     created_at: str
     updated_at:str
 
-
-# --- Errores de dominio (api.py los traduce a códigos HTTP) ---
 
 
 class MaintenanceOrderNotFound(Exception):
