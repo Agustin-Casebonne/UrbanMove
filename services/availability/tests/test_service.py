@@ -138,6 +138,24 @@ def test_vuelta_de_mantenimiento(service):
     assert vehicle.zone_id == "Z03"
 
 
+@pytest.mark.parametrize(
+    "order_type, expected",
+    [
+        ("CHARGE", VehicleStatus.CHARGING),
+        ("REPAIR", VehicleStatus.REPAIRING),
+        ("REVIEW", VehicleStatus.WITHDRAWN),
+    ],
+)
+def test_mantenimiento_segun_tipo(service, order_type, expected):
+    service.register_vehicle("S-1", "SCOOTER", "Z01")
+    data = {"vehicle_id": "S-1", "type": order_type}
+    service.handle_event(make_event("VehicleWithdrawnForMaintenance", data, "ev-1"))
+    assert service.get_vehicle("S-1").status == expected
+
+    service.handle_event(make_event("VehicleReturnedToService", data, "ev-2"))
+    assert service.get_vehicle("S-1").status == VehicleStatus.AVAILABLE
+
+
 def test_recolocacion_cambia_zona(service):
     service.register_vehicle("S-1", "SCOOTER", "Z01")
     service.register_vehicle("S-2", "SCOOTER", "Z01")
