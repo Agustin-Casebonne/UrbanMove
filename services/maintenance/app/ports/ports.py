@@ -9,6 +9,7 @@ from abc import ABC, abstractmethod
 
 from ..domain.model import MaintenanceOrder, MaintenanceStatus
 
+
 class MaintenanceOrderRepository(ABC):
 
     @abstractmethod

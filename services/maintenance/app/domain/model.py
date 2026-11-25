@@ -41,7 +41,7 @@ VALID_TRANSITIONS = {
 
 class MaintenanceOrder(BaseModel):
     order_id: str
-    vehicle_id: str 
+    vehicle_id: str
     type: MaintenanceType
     status: MaintenanceStatus
     reason: str
