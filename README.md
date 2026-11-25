@@ -42,8 +42,8 @@ docs/          arquitectura, contratos de APIs y eventos, ADRs, evidencias
 | reservations | 8005 | **implementado** (ver `docs/reservations.md`) |
 | rides | 8006 | **implementado** |
 | history | 8007 | **implementado** |
-| maintenance | 8008 | esqueleto |
-| relocation | 8009 | esqueleto |
+| maintenance | 8008 | **implementado** |
+| relocation | 8009 | **implementado** |
 | analytics | 8010 | esqueleto |
 
 Documentación interactiva de cada API: `http://localhost:<puerto>/docs`
